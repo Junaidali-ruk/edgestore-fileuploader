@@ -1,13 +1,9 @@
 "use client";
-export const useEdgeStore = () => {
-  const edgestore = {
-    myPublicImages: {
-      // Fetch all images
-      list: async () => {
-        const response = await fetch("/api/edgestore/images");
-        return response.json();
-      },
-    },
-  };
-  return { edgestore };
-};
+
+import { type EdgeStoreRouter } from "@/app/api/edgestore/[...edgestore]/route";
+import { createEdgeStoreProvider } from "@edgestore/react";
+
+export const { EdgeStoreProvider, useEdgeStore } =
+  createEdgeStoreProvider<EdgeStoreRouter>({
+    maxConcurrentUploads: 2,
+  });
